@@ -53,13 +53,23 @@
   .fit-cal-day .cal-date{font-size:14px;font-weight:700;}
   .fit-cal-day .cal-weekday{font-size:10px;color:var(--dim);}
   .fit-cal-day.done .cal-weekday{color:#000;opacity:.7;}
-  .fit-record{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
-  .fit-record:last-child{border:none;}
-  .fit-record-cat{font-weight:600;font-size:15px;}
-  .fit-record-date{font-size:12px;color:var(--dim);}
-  .fit-record-note{font-size:12px;color:var(--dim);margin-top:2px;}
-  .fit-del{color:var(--red);cursor:pointer;border:none;background:none;font-size:16px;padding:4px 8px;border-radius:6px;}
-  .fit-del:hover{background:rgba(255,107,107,.15);}
+  /* ===== 打卡记录表格 ===== */
+  .fit-tbl-wrap{overflow-x:auto;margin-top:8px;}
+  .fit-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;}
+  .fit-tbl thead th{position:sticky;top:0;background:var(--card);border-bottom:2px solid var(--border);padding:10px 8px;text-align:center;font-size:12px;color:var(--dim);white-space:nowrap;}
+  .fit-tbl tbody td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:center;white-space:nowrap;}
+  .fit-tbl tbody tr:hover{background:var(--input-bg);}
+  .fit-tbl .td-cat{font-weight:600;}
+  .fit-tbl .td-del{cursor:pointer;color:var(--red);border:none;background:none;font-size:14px;padding:4px 8px;border-radius:6px;}
+  .fit-tbl .td-del:hover{background:rgba(255,107,107,.15);}
+  /* ===== 年度统计 ===== */
+  .fit-year-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+  .fit-year-chip{padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:var(--input-bg);text-align:center;}
+  .fit-year-chip .yr-num{font-size:20px;font-weight:800;color:var(--accent);}
+  .fit-year-chip .yr-label{font-size:11px;color:var(--dim);}
+  /* ===== 日期/年月周 输入行 ===== */
+  .fit-date-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+  .fit-date-row .input-group{margin-bottom:0;}
   .fit-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:fitToastIn .3s ease;}
   @keyframes fitToastIn{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
   @media(max-width:600px){
@@ -72,6 +82,8 @@
     .fit-stats{grid-template-columns:repeat(2,1fr);}
     .fit-cat-grid{grid-template-columns:repeat(2,1fr);}
     .fit-stat-num{font-size:24px;}
+    .fit-date-row{grid-template-columns:1fr 1fr;}
+    .fit-tbl{font-size:12px;min-width:500px;}
   }
 </style>
 </head>
@@ -88,9 +100,27 @@
     <h2>💪 打卡</h2>
     <label>选择锻炼部位</label>
     <div class="fit-cat-grid" id="fitCatGrid"></div>
+    <div class="fit-date-row" style="margin-top:12px">
+      <div class="input-group">
+        <label>日期</label>
+        <input type="date" id="fitDate" />
+      </div>
+      <div class="input-group">
+        <label>年度</label>
+        <input type="number" id="fitYear" placeholder="自动" />
+      </div>
+      <div class="input-group">
+        <label>月</label>
+        <input type="number" id="fitMonth" placeholder="自动" min="1" max="12" />
+      </div>
+      <div class="input-group">
+        <label>周别</label>
+        <input type="number" id="fitWeek" placeholder="自动" min="1" max="53" />
+      </div>
+    </div>
     <div class="input-group" style="margin-top:12px">
-      <label>备注（可选）</label>
-      <input type="text" id="fitNote" placeholder="如：上次锻炼了什么">
+      <label>上次锻炼项目（可选）</label>
+      <input type="text" id="fitNote" placeholder="如：上次锻炼了胸">
     </div>
     <button class="btn green" onclick="fitCheckin()" style="margin-top:8px">✅ 立即打卡</button>
   </div>
@@ -106,9 +136,21 @@
   </div>
 
   <div class="card">
+    <h2>📈 按年度统计</h2>
+    <div class="fit-year-grid" id="fitYearStats"></div>
+  </div>
+
+  <div class="card">
     <h2>📋 打卡记录</h2>
-    <div id="fitRecords"></div>
-    <div id="fitEmpty" class="empty">暂无打卡记录</div>
+    <div class="fit-tbl-wrap">
+      <table class="fit-tbl" id="fitRecords">
+        <thead><tr>
+          <th>日期</th><th>部位</th><th>年度</th><th>月</th><th>周别</th><th>上次锻炼项目</th><th>删除</th>
+        </tr></thead>
+        <tbody id="fitRecordsBody"></tbody>
+      </table>
+    </div>
+    <div id="fitEmpty" class="empty" style="display:none">暂无打卡记录</div>
   </div>
 </div>
 
@@ -154,13 +196,25 @@ async function fitFetch(method,path,body){
 
 async function fitLoad(){
   try{
-    fitData=await fitFetch('GET','?select=id,date,category,note&order=date.desc,created_at.desc');
+    fitData=await fitFetch('GET','?select=id,date,category,year,month,week,prev_category,note&order=date.desc,created_at.desc');
   }catch(e){console.warn('fitLoad error:',e);fitData=[];}
   if(!Array.isArray(fitData))fitData=[];
   fitRenderStats();
   fitRenderChart();
   fitRenderCal();
+  fitRenderYearStats();
   fitRenderRecords();
+}
+
+function getISOWeek(date){
+  const d=new Date(date);
+  d.setHours(0,0,0,0);
+  const day=(d.getDay()+6)%7; // Mon=0..Sun=6
+  const thursday=new Date(d);
+  thursday.setDate(d.getDate()+(3-day));
+  const jan1=new Date(thursday.getFullYear(),0,1);
+  const diff=(thursday-jan1)/(86400000);
+  return 1+Math.ceil((diff+jan1.getDay()+1)/7);
 }
 
 function fitRenderStats(){
@@ -190,7 +244,6 @@ function fitRenderStats(){
   const dates=new Set(fitData.filter(r=>r.date).map(r=>r.date));
   let streak=0;
   const checkDate=new Date(today);
-  // If not checked in today, start from yesterday
   if(!dates.has(checkDate.toISOString().slice(0,10))){
     checkDate.setDate(checkDate.getDate()-1);
   }
@@ -213,7 +266,6 @@ function fitRenderChart(){
   fitData.forEach(r=>{
     if(r.category&&counts[r.category]!==undefined)counts[r.category]++;
   });
-  // Also count any categories not in the list
   fitData.forEach(r=>{
     if(r.category&&!FIT_CATS.includes(r.category)){
       counts[r.category]=(counts[r.category]||0)+1;
@@ -222,7 +274,6 @@ function fitRenderChart(){
   const max=Math.max(...Object.values(counts),1);
   
   let html='';
-  // Show all categories that have count > 0
   const sortedAll=Object.entries(counts).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   if(sortedAll.length===0){
     html='<div class="empty">暂无数据</div>';
@@ -260,24 +311,48 @@ function fitRenderCal(){
   $('fitCal').innerHTML=html;
 }
 
-function fitRenderRecords(){
-  const container=$('fitRecords');
-  if(!fitData.length){$('fitEmpty').style.display='block';container.innerHTML='';return;}
-  $('fitEmpty').style.display='none';
+function fitRenderYearStats(){
+  const counts={};
+  fitData.forEach(r=>{
+    if(r.year)counts[r.year]=(counts[r.year]||0)+1;
+  });
+  const years=Object.keys(counts).sort();
   let html='';
-  fitData.forEach((r,i)=>{
+  if(years.length===0){
+    html='<div class="empty">暂无数据</div>';
+  }else{
+    years.forEach(y=>{
+      html+=`<div class="fit-year-chip"><div class="yr-num">${counts[y]}</div><div class="yr-label">${y}年</div></div>`;
+    });
+  }
+  $('fitYearStats').innerHTML=html;
+}
+
+function fitRenderRecords(){
+  const body=$('fitRecordsBody');
+  const empty=$('fitEmpty');
+  if(!fitData.length){empty.style.display='block';body.innerHTML='';return;}
+  empty.style.display='none';
+  let html='';
+  fitData.forEach(r=>{
     const idx=FIT_CATS.indexOf(r.category);
     const color=r.category&&idx>=0?FIT_COLORS[idx]:'var(--dim)';
-    html+=`<div class="fit-record">
-      <div>
-        <div class="fit-record-cat" ${r.category?`style="color:${color}"`:''}>${r.category||'（未分类）'}</div>
-        <div class="fit-record-date">${r.date||''}</div>
-        ${r.note?`<div class="fit-record-note">上次：${r.note}</div>`:''}
-      </div>
-      <button class="fit-del" onclick="fitDel(${r.id})">✕ 删除</button>
-    </div>`;
+    const catDisplay=r.category||'—';
+    const yr=r.year||'—';
+    const mo=r.month!=null?r.month:'—';
+    const wk=r.week!=null?r.week:'—';
+    const prev=r.prev_category||'—';
+    html+=`<tr>
+      <td>${r.date||'—'}</td>
+      <td class="td-cat" style="color:${color}">${catDisplay}</td>
+      <td>${yr}</td>
+      <td>${mo}</td>
+      <td>${wk}</td>
+      <td>${prev}</td>
+      <td><button class="td-del" onclick="fitDel(${r.id})">✕</button></td>
+    </tr>`;
   });
-  container.innerHTML=html;
+  body.innerHTML=html;
 }
 
 function fitSelectCat(cat,btn){
@@ -289,11 +364,34 @@ function fitSelectCat(cat,btn){
 async function fitCheckin(){
   if(!fitSelectedCat){alert('请先选择锻炼部位');return;}
   const note=$('fitNote').value.trim();
-  const date=new Date().toISOString().slice(0,10);
-  const ok=await fitFetch('POST','',{date,category:fitSelectedCat,note});
+  // Use selected date, or default to today
+  let dateVal=$('fitDate').value;
+  if(!dateVal){
+    dateVal=new Date().toISOString().slice(0,10);
+  }
+  // Auto-calc year/month/week if not provided
+  const d=new Date(dateVal+'T00:00:00');
+  let year=$('fitYear').value?parseInt($('fitYear').value):d.getFullYear();
+  let month=$('fitMonth').value?parseInt($('fitMonth').value):(d.getMonth()+1);
+  let week=$('fitWeek').value?parseInt($('fitWeek').value):getISOWeek(d);
+
+  const payload={
+    date:dateVal,
+    category:fitSelectedCat,
+    year:year,
+    month:month,
+    week:week,
+    prev_category:note||'',
+    note:''
+  };
+  const ok=await fitFetch('POST','',payload);
   if(ok){
     fitToast('打卡成功！💪');
     $('fitNote').value='';
+    $('fitDate').value='';
+    $('fitYear').value='';
+    $('fitMonth').value='';
+    $('fitWeek').value='';
     await fitLoad();
   }else{
     alert('打卡失败，请重试');
