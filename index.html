@@ -62,13 +62,26 @@
   .fit-tbl .td-cat{font-weight:600;}
   .fit-tbl .td-del{cursor:pointer;color:var(--red);border:none;background:none;font-size:14px;padding:4px 8px;border-radius:6px;}
   .fit-tbl .td-del:hover{background:rgba(255,107,107,.15);}
-  /* ===== 年度统计 ===== */
-  .fit-year-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
-  .fit-year-chip{padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:var(--input-bg);text-align:center;}
-  .fit-year-chip .yr-num{font-size:20px;font-weight:800;color:var(--accent);}
-  .fit-year-chip .yr-label{font-size:11px;color:var(--dim);}
-  /* ===== 日期/年月周 输入行 ===== */
-  .fit-date-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+  /* ===== 预测卡片 ===== */
+  .predict-card{background:linear-gradient(135deg,rgba(108,92,231,.15),rgba(0,214,143,.1));border:1px solid var(--accent);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .predict-main{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .predict-main .predict-cat{color:var(--accent);font-size:22px;}
+  .predict-sub{font-size:14px;color:var(--dim);line-height:1.8;}
+  .predict-sub b{color:var(--text);}
+  /* ===== 年度统计条形图 ===== */
+  .year-chart{display:flex;flex-direction:column;gap:12px;margin-top:12px;}
+  .year-bar-row{display:flex;align-items:center;gap:12px;}
+  .year-bar-label{width:70px;font-size:14px;font-weight:600;color:var(--dim);text-align:right;flex-shrink:0;}
+  .year-bar-track{flex:1;height:32px;background:var(--input-bg);border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .year-bar-fill{height:100%;border-radius:8px;min-width:4px;transition:width .6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-size:13px;font-weight:700;color:#fff;}
+  /* ===== 月度统计条形图 ===== */
+  .month-chart{display:flex;align-items:flex-end;justify-content:space-between;gap:4px;margin-top:16px;height:180px;padding-bottom:28px;position:relative;overflow-x:auto;}
+  .month-bar-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;min-width:36px;height:100%;position:relative;}
+  .month-bar-val{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+  .month-bar-fill{width:80%;max-width:40px;border-radius:6px 6px 0 0;min-height:4px;transition:height .6s ease;background:linear-gradient(180deg,var(--accent),var(--blue));}
+  .month-bar-label{font-size:10px;color:var(--dim);position:absolute;bottom:-22px;white-space:nowrap;transform:rotate(-45deg);transform-origin:center top;left:50%;margin-left:-30px;width:60px;text-align:center;}
+  /* ===== 日期输入行 ===== */
+  .fit-date-row{display:grid;grid-template-columns:1fr;gap:10px;}
   .fit-date-row .input-group{margin-bottom:0;}
   .fit-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;padding:12px 24px;border-radius:12px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:fitToastIn .3s ease;}
   @keyframes fitToastIn{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
@@ -82,8 +95,10 @@
     .fit-stats{grid-template-columns:repeat(2,1fr);}
     .fit-cat-grid{grid-template-columns:repeat(2,1fr);}
     .fit-stat-num{font-size:24px;}
-    .fit-date-row{grid-template-columns:1fr 1fr;}
     .fit-tbl{font-size:12px;min-width:500px;}
+    .predict-main{font-size:16px;}
+    .predict-main .predict-cat{font-size:20px;}
+    .month-chart{height:150px;}
   }
 </style>
 </head>
@@ -96,33 +111,26 @@
 <div class="page">
   <div class="fit-stats" id="fitStats"></div>
 
+  <!-- 功能2：预测下次锻炼项目 -->
+  <div class="predict-card" id="predictCard" style="display:none">
+    <div class="predict-main">🔮 下次建议锻炼：<span class="predict-cat" id="predictCat">—</span></div>
+    <div class="predict-sub" id="predictSub"></div>
+  </div>
+
   <div class="card">
     <h2>💪 打卡</h2>
     <label>选择锻炼部位</label>
     <div class="fit-cat-grid" id="fitCatGrid"></div>
     <div class="fit-date-row" style="margin-top:12px">
       <div class="input-group">
-        <label>日期</label>
+        <label>日期（不选默认今天）</label>
         <input type="date" id="fitDate" />
       </div>
-      <div class="input-group">
-        <label>年度</label>
-        <input type="number" id="fitYear" placeholder="自动" />
-      </div>
-      <div class="input-group">
-        <label>月</label>
-        <input type="number" id="fitMonth" placeholder="自动" min="1" max="12" />
-      </div>
-      <div class="input-group">
-        <label>周别</label>
-        <input type="number" id="fitWeek" placeholder="自动" min="1" max="53" />
-      </div>
     </div>
-    <div class="input-group" style="margin-top:12px">
-      <label>上次锻炼项目（可选）</label>
-      <input type="text" id="fitNote" placeholder="如：上次锻炼了胸">
+    <div style="margin-top:8px;font-size:12px;color:var(--dim);">
+      年度/月份/周别/上次锻炼项目将自动计算，无需手动填写
     </div>
-    <button class="btn green" onclick="fitCheckin()" style="margin-top:8px">✅ 立即打卡</button>
+    <button class="btn green" onclick="fitCheckin()" style="margin-top:10px">✅ 立即打卡</button>
   </div>
 
   <div class="card">
@@ -135,9 +143,16 @@
     <div class="fit-cal" id="fitCal"></div>
   </div>
 
+  <!-- 功能3：按年度统计（条形图） -->
   <div class="card">
     <h2>📈 按年度统计</h2>
-    <div class="fit-year-grid" id="fitYearStats"></div>
+    <div class="year-chart" id="fitYearStats"></div>
+  </div>
+
+  <!-- 功能4：按月度统计（条形图） -->
+  <div class="card">
+    <h2>📊 月度统计（最近 12 个月）</h2>
+    <div class="month-chart" id="fitMonthStats"></div>
   </div>
 
   <div class="card">
@@ -194,6 +209,15 @@ async function fitFetch(method,path,body){
   return res.ok;
 }
 
+// ===== 功能1：ISO 周数计算（使用任务指定的算法） =====
+function getWeekNumber(date){
+  var d = new Date(date);
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate()+3-(d.getDay()+6)%7);
+  var week1 = new Date(d.getFullYear(),0,4);
+  return 1+Math.round(((d-week1)/86400000-3+(week1.getDay()+6)%7)/7);
+}
+
 async function fitLoad(){
   try{
     fitData=await fitFetch('GET','?select=id,date,category,year,month,week,prev_category,note&order=date.desc,created_at.desc');
@@ -203,18 +227,9 @@ async function fitLoad(){
   fitRenderChart();
   fitRenderCal();
   fitRenderYearStats();
+  fitRenderMonthStats();
+  fitRenderPrediction();
   fitRenderRecords();
-}
-
-function getISOWeek(date){
-  const d=new Date(date);
-  d.setHours(0,0,0,0);
-  const day=(d.getDay()+6)%7; // Mon=0..Sun=6
-  const thursday=new Date(d);
-  thursday.setDate(d.getDate()+(3-day));
-  const jan1=new Date(thursday.getFullYear(),0,1);
-  const diff=(thursday-jan1)/(86400000);
-  return 1+Math.ceil((diff+jan1.getDay()+1)/7);
 }
 
 function fitRenderStats(){
@@ -311,21 +326,156 @@ function fitRenderCal(){
   $('fitCal').innerHTML=html;
 }
 
+// ===== 功能3：按年度统计（条形图） =====
 function fitRenderYearStats(){
   const counts={};
   fitData.forEach(r=>{
-    if(r.year)counts[r.year]=(counts[r.year]||0)+1;
+    const y=r.year||(r.date?r.date.substring(0,4):null);
+    if(y)counts[y]=(counts[y]||0)+1;
   });
   const years=Object.keys(counts).sort();
+  const max=Math.max(...Object.values(counts),1);
   let html='';
   if(years.length===0){
     html='<div class="empty">暂无数据</div>';
   }else{
-    years.forEach(y=>{
-      html+=`<div class="fit-year-chip"><div class="yr-num">${counts[y]}</div><div class="yr-label">${y}年</div></div>`;
+    const colors=['#6c5ce7','#00d68f','#3b82f6','#ffd700','#ff9f43','#ff6b6b','#a29bfe','#00cec9'];
+    years.forEach((y,i)=>{
+      const count=counts[y];
+      const pct=(count/max*100).toFixed(1);
+      const color=colors[i%colors.length];
+      html+=`<div class="year-bar-row">
+        <div class="year-bar-label">${y}年</div>
+        <div class="year-bar-track"><div class="year-bar-fill" style="width:${pct}%;background:${color}">${count} 次</div></div>
+      </div>`;
     });
   }
   $('fitYearStats').innerHTML=html;
+}
+
+// ===== 功能4：按月度统计（最近12个月条形图） =====
+function fitRenderMonthStats(){
+  const today=new Date();
+  const months=[];
+  // 构建最近12个月的 key 列表
+  for(let i=11;i>=0;i--){
+    const d=new Date(today.getFullYear(),today.getMonth()-i,1);
+    const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    const label=String(d.getMonth()+1)+'月';
+    const fullLabel=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    months.push({key,label,fullLabel,count:0});
+  }
+  // 统计
+  fitData.forEach(r=>{
+    if(!r.date)return;
+    const ym=r.date.substring(0,7); // YYYY-MM
+    const m=months.find(mo=>mo.key===ym);
+    if(m)m.count++;
+  });
+  const max=Math.max(...months.map(m=>m.count),1);
+  let html='';
+  months.forEach(m=>{
+    const h=(m.count/max*100).toFixed(1);
+    html+=`<div class="month-bar-col">
+      <div class="month-bar-val">${m.count}</div>
+      <div class="month-bar-fill" style="height:${h}%"></div>
+      <div class="month-bar-label">${m.fullLabel}</div>
+    </div>`;
+  });
+  $('fitMonthStats').innerHTML=html;
+}
+
+// ===== 功能2：预测下次锻炼项目 =====
+function fitRenderPrediction(){
+  const card=$('predictCard');
+  const catEl=$('predictCat');
+  const subEl=$('predictSub');
+  
+  if(!fitData.length){
+    card.style.display='none';
+    return;
+  }
+  
+  // 取有 category 且有 date 的记录，按日期倒序
+  const records=fitData
+    .filter(r=>r.category&&r.date)
+    .sort((a,b)=>b.date.localeCompare(a.date));
+  
+  if(records.length===0){
+    card.style.display='none';
+    return;
+  }
+  
+  card.style.display='block';
+  
+  // 上次锻炼信息
+  const last=records[0];
+  const lastDate=last.date;
+  const lastCat=last.category;
+  
+  // 计算休息天数
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  const lastD=new Date(lastDate+'T00:00:00');
+  lastD.setHours(0,0,0,0);
+  const restDays=Math.round((today-lastD)/86400000);
+  
+  // 预测算法：取最近 20 条有 category 的记录
+  const recent20=records.slice(0,20);
+  
+  // 统计每个部位的频率和最近一次日期
+  const catStats={};
+  recent20.forEach(r=>{
+    if(!catStats[r.category]){
+      catStats[r.category]={count:0,lastDate:r.date};
+    }
+    catStats[r.category].count++;
+    // records 已按日期倒序，所以第一次遇到的 lastDate 就是最近的
+  });
+  
+  // 最近 10 条记录的部位集合
+  const recent10=records.slice(0,10);
+  
+  // 找出最近10条中出现次数最少且最近最久没练的部位
+  const allCatsInRecent=Object.keys(catStats);
+  
+  // 所有可能的部位（从 FIT_CATS 中取在最近20条出现过的 + FIT_CATS 本身）
+  const candidateCats=[...new Set([...FIT_CATS.filter(c=>recent10.some(r=>r.category===c)), ...allCatsInRecent])];
+  
+  // 按出现次数升序，再按最近日期升序（最久的在前）
+  candidateCats.sort((a,b)=>{
+    const sa=catStats[a]||{count:0,lastDate:'2000-01-01'};
+    const sb=catStats[b]||{count:0,lastDate:'2000-01-01'};
+    // 先按次数升序
+    if(sa.count!==sb.count)return sa.count-sb.count;
+    // 再按最近日期升序（最久的在前）
+    return sa.lastDate.localeCompare(sb.lastDate);
+  });
+  
+  // 检测轮换模式：看最近几条是否形成循环
+  let predicted=null;
+  // 取最近20条的部位序列
+  const seq=recent20.map(r=>r.category).reverse(); // 正序（旧→新）
+  // 尝试检测周期为2~5的循环
+  for(let cycle=2;cycle<=5;cycle++){
+    if(seq.length<cycle*2)continue;
+    const lastCycle=seq.slice(-cycle);
+    const prevCycle=seq.slice(-cycle*2,-cycle);
+    // 检查最近两个周期是否相同
+    if(lastCycle.join(',')===prevCycle.join(',')){
+      // 预测下一个就是 lastCycle 的第一个
+      predicted=lastCycle[0];
+      break;
+    }
+  }
+  
+  // 如果没检测到循环，用简单方案
+  if(!predicted){
+    predicted=candidateCats[0]||lastCat;
+  }
+  
+  catEl.textContent=predicted;
+  subEl.innerHTML=`上次锻炼：<b>${lastCat}</b>（${lastDate}）<br>已休息 <b>${restDays}</b> 天`;
 }
 
 function fitRenderRecords(){
@@ -361,37 +511,45 @@ function fitSelectCat(cat,btn){
   if(btn)btn.classList.add('selected');
 }
 
+// ===== 功能1：自动计算 year/month/week/prev_category =====
 async function fitCheckin(){
   if(!fitSelectedCat){alert('请先选择锻炼部位');return;}
-  const note=$('fitNote').value.trim();
-  // Use selected date, or default to today
+  
+  // 日期：选了就用选的，否则今天
   let dateVal=$('fitDate').value;
   if(!dateVal){
     dateVal=new Date().toISOString().slice(0,10);
   }
-  // Auto-calc year/month/week if not provided
+  
+  // 自动计算 year/month/week
   const d=new Date(dateVal+'T00:00:00');
-  let year=$('fitYear').value?parseInt($('fitYear').value):d.getFullYear();
-  let month=$('fitMonth').value?parseInt($('fitMonth').value):(d.getMonth()+1);
-  let week=$('fitWeek').value?parseInt($('fitWeek').value):getISOWeek(d);
-
+  const year=d.getFullYear();
+  const month=d.getMonth()+1;
+  const week=getWeekNumber(d);
+  
+  // prev_category：取最近一条打卡记录的 category
+  let prevCategory='';
+  if(fitData.length>0){
+    // fitData 已按 date.desc 排序，第一条就是最近的
+    const sorted=[...fitData].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    if(sorted[0]&&sorted[0].category){
+      prevCategory=sorted[0].category;
+    }
+  }
+  
   const payload={
     date:dateVal,
     category:fitSelectedCat,
     year:year,
     month:month,
     week:week,
-    prev_category:note||'',
+    prev_category:prevCategory,
     note:''
   };
   const ok=await fitFetch('POST','',payload);
   if(ok){
     fitToast('打卡成功！💪');
-    $('fitNote').value='';
     $('fitDate').value='';
-    $('fitYear').value='';
-    $('fitMonth').value='';
-    $('fitWeek').value='';
     await fitLoad();
   }else{
     alert('打卡失败，请重试');
