@@ -233,9 +233,14 @@ function getWeekNumber(date){
 }
 
 async function fitLoad(){
+  let loadError='';
   try{
     fitData=await fitFetch('GET','?select=id,date,category,year,month,week,prev_category,note&order=date.desc,created_at.desc');
-  }catch(e){console.warn('fitLoad error:',e);fitData=[];}
+  }catch(e){
+    console.warn('fitLoad error:',e);
+    loadError=e?.message||String(e);
+    fitData=[];
+  }
   if(!Array.isArray(fitData))fitData=[];
   fitRenderStats();
   fitRenderChart();
@@ -244,6 +249,14 @@ async function fitLoad(){
   fitRenderMonthStats();
   fitRenderPrediction();
   fitRenderRecords();
+  if(loadError){
+    const empty=$('fitEmpty');
+    empty.style.display='block';
+    empty.style.color='var(--red)';
+    empty.style.textAlign='left';
+    empty.style.whiteSpace='pre-wrap';
+    empty.textContent='Supabase 请求失败：\\n'+loadError;
+  }
 }
 
 function fitRenderStats(){
