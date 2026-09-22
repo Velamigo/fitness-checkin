@@ -204,9 +204,23 @@ async function fitFetch(method,path,body){
   if(body)opts.body=JSON.stringify(body);
   if(method==='POST'||method==='DELETE')headers['Prefer']='return=minimal';
   const url=SB_URL+'/rest/v1/checkins'+path;
-  const res=await fetch(url,opts);
-  if(method==='GET'&&res.ok)return res.json();
-  return res.ok;
+  let res;
+  try{
+    res=await fetch(url,opts);
+  }catch(e){
+    console.error('Supabase network error:',e);
+    throw new Error('Supabase network error: '+(e?.message||String(e)));
+  }
+  const text=await res.text();
+  console.log('Supabase response:',{method,url,status:res.status,statusText:res.statusText,response:text});
+  if(!res.ok){
+    throw new Error('Supabase '+res.status+' '+res.statusText+': '+text);
+  }
+  if(method==='GET'){
+    try{return JSON.parse(text);}
+    catch(e){throw new Error('Supabase returned invalid JSON: '+text);}
+  }
+  return true;
 }
 
 // ===== 功能1：ISO 周数计算（使用任务指定的算法） =====
