@@ -165,6 +165,11 @@
         <tbody id="fitRecordsBody"></tbody>
       </table>
     </div>
+    <!-- fitness-network-resilience-v1 -->
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0">
+      <span id="fitLoadStatus" role="status" aria-live="polite" style="color:var(--dim)"></span>
+      <button id="fitReload" type="button" onclick="fitLoad()">重新加载</button>
+    </div>
     <div id="fitEmpty" class="empty" style="display:none">暂无打卡记录</div>
   </div>
 </div>
@@ -196,31 +201,51 @@ const FIT_COLORS=['#6c5ce7','#00d68f','#3b82f6','#ffd700','#ff9f43','#ff6b6b','#
 let fitData=[];
 let fitSelectedCat='';
 
+const FIT_READ_TIMEOUT_MS=10000;
+const FIT_READ_RETRY_DELAY_MS=700;
+const FIT_RETRY_STATUSES=new Set([408,429,502,503,504]);
 async function fitFetch(method,path,body){
-  const headers={
-    'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'
-  };
-  const opts={method,headers};
-  if(body)opts.body=JSON.stringify(body);
-  if(method==='POST'||method==='DELETE')headers['Prefer']='return=minimal';
-  const url=SB_URL+'/rest/v1/checkins'+path;
-  let res;
-  try{
-    res=await fetch(url,opts);
-  }catch(e){
-    console.error('Supabase network error:',e);
-    throw new Error('Supabase network error: '+(e?.message||String(e)));
+  const headers={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+  if(method==='POST'||method==='DELETE')headers.Prefer='return=minimal';
+  const isRead=method==='GET';
+  for(let attempt=0;attempt<(isRead?2:1);attempt++){
+    const controller=isRead?new AbortController():null;
+    let timer;
+    try{
+      const operation=(async()=>{
+        let res;
+        try{
+          res=await fetch(SB_URL+'/rest/v1/checkins'+path,{
+            method,headers,...(body?{body:JSON.stringify(body)}:{}),
+            ...(controller?{signal:controller.signal}:{})
+          });
+        }catch(cause){
+          const e=new Error('网络连接失败，请检查网络后重新加载');
+          e.retryable=true; throw e;
+        }
+        const text=await res.text();
+        if(!res.ok){
+          const e=new Error('服务请求失败（HTTP '+res.status+'）');
+          e.retryable=FIT_RETRY_STATUSES.has(res.status); throw e;
+        }
+        if(!isRead)return true;
+        let data;
+        try{data=JSON.parse(text);}catch(e){throw new Error('服务返回的数据格式异常，请稍后重试');}
+        if(!Array.isArray(data))throw new Error('服务返回的数据格式异常，请稍后重试');
+        return data;
+      })();
+      if(!isRead)return await operation;
+      return await Promise.race([operation,new Promise((_,reject)=>{
+        timer=setTimeout(()=>{
+          const e=new Error('读取超时，请稍后重新加载');e.retryable=true;
+          reject(e);controller.abort();
+        },FIT_READ_TIMEOUT_MS);
+      })]);
+    }catch(e){
+      if(!isRead||attempt===1||!e.retryable)throw e;
+    }finally{clearTimeout(timer);}
+    await new Promise(resolve=>setTimeout(resolve,FIT_READ_RETRY_DELAY_MS));
   }
-  const text=await res.text();
-  console.log('Supabase response:',{method,url,status:res.status,statusText:res.statusText,response:text});
-  if(!res.ok){
-    throw new Error('Supabase '+res.status+' '+res.statusText+': '+text);
-  }
-  if(method==='GET'){
-    try{return JSON.parse(text);}
-    catch(e){throw new Error('Supabase returned invalid JSON: '+text);}
-  }
-  return true;
 }
 
 // ===== 功能1：ISO 周数计算（使用任务指定的算法） =====
@@ -232,31 +257,34 @@ function getWeekNumber(date){
   return 1+Math.round(((d-week1)/86400000-3+(week1.getDay()+6)%7)/7);
 }
 
-async function fitLoad(){
-  let loadError='';
-  try{
-    fitData=await fitFetch('GET','?select=id,date,category,year,month,week,prev_category,note&order=date.desc,created_at.desc');
-  }catch(e){
-    console.warn('fitLoad error:',e);
-    loadError=e?.message||String(e);
-    fitData=[];
-  }
-  if(!Array.isArray(fitData))fitData=[];
-  fitRenderStats();
-  fitRenderChart();
-  fitRenderCal();
-  fitRenderYearStats();
-  fitRenderMonthStats();
-  fitRenderPrediction();
-  fitRenderRecords();
-  if(loadError){
-    const empty=$('fitEmpty');
-    empty.style.display='block';
-    empty.style.color='var(--red)';
-    empty.style.textAlign='left';
-    empty.style.whiteSpace='pre-wrap';
-    empty.textContent='Supabase 请求失败：\\n'+loadError;
-  }
+let fitLoadPending=null;
+let fitLastLoadedAt=null;
+function fitLoad(){
+  if(fitLoadPending)return fitLoadPending;
+  const status=$('fitLoadStatus'),button=$('fitReload'),empty=$('fitEmpty');
+  button.disabled=true;
+  status.textContent='正在读取…（失败自动重试一次）';
+  status.style.color='var(--dim)';
+  fitLoadPending=(async()=>{
+    let loadError='';
+    try{
+      fitData=await fitFetch('GET','?select=id,date,category,year,month,week,prev_category,note&order=date.desc,created_at.desc');
+      fitLastLoadedAt=new Date();
+    }catch(e){loadError=e?.message||'读取失败';}
+    // Keep the last successful in-memory data; never present it as a fresh read.
+    empty.textContent='暂无打卡记录';
+    empty.style.color='';empty.style.textAlign='';empty.style.whiteSpace='';
+    fitRenderStats();fitRenderChart();fitRenderCal();fitRenderYearStats();
+    fitRenderMonthStats();fitRenderPrediction();fitRenderRecords();
+    if(loadError){
+      status.style.color='var(--red)';
+      status.textContent=loadError+(fitLastLoadedAt?'；当前仍显示 '+fitLastLoadedAt.toLocaleTimeString()+' 的旧数据。':'；尚未加载到数据。');
+      if(!fitData.length){empty.style.display='block';empty.style.color='var(--red)';empty.textContent='未能加载打卡记录，请点击“重新加载”。';}
+    }else{
+      status.textContent='已更新：'+fitLastLoadedAt.toLocaleTimeString();
+    }
+  })().finally(()=>{button.disabled=false;fitLoadPending=null;});
+  return fitLoadPending;
 }
 
 function fitRenderStats(){
@@ -618,3 +646,4 @@ fitLoad();
 </script>
 </body>
 </html>
+
