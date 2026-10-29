@@ -2,6 +2,7 @@
 <style>
 :root{--bg:#f4f6f2;--card:#fff;--text:#17271e;--muted:#65746b;--line:#e1e8e1;--soft:#eef3ed;--accent:#276448;--red:#b33b31;--hero:#163e2c;--shadow:0 6px 30px #243c2b06;color-scheme:light} [data-theme=dark]{--bg:#101b16;--card:#19271f;--text:#edf4ed;--muted:#a2b3a7;--line:#304337;--soft:#22372a;--accent:#a0d7af;--red:#ff9c92;--hero:#244c35;--shadow:none;color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.48;cursor:wait}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #79ac8b;outline-offset:3px}button{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:10px 14px;min-height:44px}input,select{width:100%;min-height:44px;padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font-size:16px}input[type=checkbox]{width:22px;height:22px;min-height:22px;accent-color:var(--accent)}label{display:block;color:var(--muted);font-size:13px;margin:8px 0 5px}h1,h2,h3,p{margin-top:0}h1{font-size:23px;letter-spacing:-.6px;margin:0}h2{font-size:20px;margin:0 0 12px}h3{font-size:15px}small,.muted{color:var(--muted)}small{display:block;font-size:12px}.page{max-width:1100px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;opacity:.8}.top .eyebrow{color:var(--accent)}.top-actions{display:flex;gap:8px}.icon{width:44px;padding:0}.sync{font-size:12px;display:flex;align-items:center;gap:10px;margin:12px 0 18px;color:var(--muted)}.sync button{font-size:12px;padding:5px 10px;min-height:34px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);padding:24px;border-radius:24px;box-shadow:var(--shadow);margin-bottom:18px;min-width:0}.hero{background:var(--hero);color:#fff;border:0;overflow:hidden;position:relative}.hero .eyebrow{color:#c0dac8;letter-spacing:.8px}.hero h2{font-size:27px;margin-top:14px}.hero p{color:#d0e2d5;font-size:13px}.hero-number{display:flex;align-items:baseline;gap:14px;margin:8px 0 14px}.hero-number strong{font-size:76px;letter-spacing:-5px;font-weight:650;line-height:1.2}.hero-number span{font-size:13px;color:#cce0d2}.progress{height:7px;background:#ffffff20;border-radius:8px;overflow:hidden}.progress i{display:block;height:100%;background:#bfe4a9;border-radius:8px}.hero-bottom{display:flex;justify-content:space-between;font-size:13px;color:#daeadf;margin-top:13px}.hero .warning{color:#ffd3b5;margin:10px 0 0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-head h2{margin:0}.badge{font-size:11px;background:var(--soft);color:var(--accent);padding:4px 9px;border-radius:999px;white-space:nowrap}.primary{background:var(--accent);color:var(--bg);border:0;font-weight:650}.hero .primary{background:#c5e7b1;color:#173623}.wide{width:100%;min-height:52px;font-size:16px}.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.categories button{font-size:13px;padding:12px 5px;min-height:48px;background:var(--soft);border-color:transparent}.categories .selected{background:var(--accent);color:var(--bg);box-shadow:0 0 0 2px var(--accent)}.check-row{display:flex;align-items:center;gap:9px;margin:14px 0;color:var(--text);font-size:14px}.check-row span{line-height:1.5}.date-row{display:flex;align-items:center;gap:14px;margin:14px 0}.date-row label{white-space:nowrap;margin:0}.date-row input{flex:1;min-width:0}.notice{padding:0 4px;color:var(--accent);font-size:14px;margin-bottom:14px}.notice:empty{display:none}.error,.warning{color:var(--red)}.match{color:var(--accent)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 20px}.stats>div{padding:10px 8px;background:var(--soft);border-radius:14px}.stats b{display:block;font-size:28px;line-height:1.3;letter-spacing:-1px}.stats span{font-size:11px;color:var(--muted)}.tips{padding-left:18px;margin:14px 0 0}.tips li{margin:10px 0;font-size:13px}.subtle-note{font-size:11px;color:var(--muted);margin-top:15px}.trend{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:16px 0}.trend-col{text-align:center}.trend-track{height:85px;background:var(--soft);display:flex;align-items:end;border-radius:8px;overflow:hidden;margin:6px 0}.trend-track i{width:100%;background:#78a286;border-radius:8px 8px 0 0}.trend-col b{font-size:13px}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{background:var(--soft);padding:5px 9px;border-radius:8px;font-size:12px}.list-row,.history-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}.list-row:last-child,.history-row:last-child{border:0}.list-row b,.history-row b{font-size:14px}.list-row>span{font-size:12px;color:var(--muted);max-width:45%;overflow-wrap:anywhere}.row-actions{display:flex;gap:6px}.row-actions button{font-size:11px;padding:6px 8px;min-height:36px}.danger{color:var(--red)}details>summary{cursor:pointer;list-style:none;font-weight:650;min-height:32px;display:flex;align-items:center;gap:10px}details>summary::-webkit-details-marker{display:none}details>summary::before{content:'+';font-size:22px;color:var(--accent);font-weight:400}details[open]>summary::before{content:'−'}details>summary small{margin-left:auto;font-weight:400}details[open]>summary{margin-bottom:16px}.inner-details{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.inner-details>summary{font-size:14px}.two-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.package-row{width:100%;display:flex;justify-content:space-between;align-items:center;text-align:left;gap:12px;margin-bottom:8px}.package-row.selected{border-color:var(--accent)}.package-row strong{font-size:12px}.package-row b{font-size:14px}.help{font-size:12px;color:var(--muted);margin:10px 0 16px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 0 24px}.pill-link{font-size:12px;padding:6px 10px;min-height:34px}.sticky-submit{margin-top:14px}.list-scroll{max-height:480px;overflow:auto;overscroll-behavior:contain}
 .compact-course{padding:16px 20px;background:var(--soft);color:var(--text);border:1px solid var(--line)}.compact-course .eyebrow{color:var(--muted)}.compact-course .hero-number{margin:4px 0 6px;gap:8px}.compact-course .hero-number strong{font-size:36px;letter-spacing:-1px}.compact-course .hero-number span{color:var(--muted)}.compact-course .hero-bottom{color:var(--muted);font-size:12px}.compact-course .progress{height:4px;background:var(--line)}.compact-course .progress i{background:var(--accent)}.compact-course .warning{color:var(--red)}.compact-course p{color:var(--muted);margin:0}.prediction{border-color:var(--accent);background:linear-gradient(135deg,var(--card),var(--soft))}.prediction .eyebrow{color:var(--accent)}.prediction-title{font-size:28px;font-weight:700;margin:8px 0}.prediction .help{margin-bottom:0}.prediction .subtle-note{margin-bottom:0}.record-badge{display:inline-block;font-size:10px;border:1px solid var(--line);padding:0 5px;border-radius:5px;margin-left:5px;color:var(--muted)}
+.course-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}.course-metrics b,.course-metrics strong{font-size:34px;line-height:1.2;display:block;letter-spacing:-1px}.course-metrics span{display:block;font-size:12px;color:var(--muted);margin:5px 0}.compact-course .help{margin:12px 0}
 @media(max-width:700px){.page{padding:18px 14px}.grid{display:block}.card{padding:20px;border-radius:20px;margin-bottom:14px}.top{margin-bottom:16px}h1{font-size:21px}.categories{grid-template-columns:repeat(4,1fr)}.hero-number strong{font-size:68px}.stats b{font-size:26px}.history-row{align-items:flex-start}.row-actions{flex-direction:column}.two-fields{gap:8px}.hero-bottom{font-size:12px}.top .eyebrow{font-size:10px}.card h2{font-size:18px}.list-scroll{max-height:420px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style></head><body><main class="page">
@@ -10,6 +11,7 @@
 <div id="notice" class="notice" role="status" aria-live="polite"></div>
 <div class="grid"><section>
 <div id="packageTop"><div class="card hero compact-course" id="packageHero"><div class="eyebrow">课程账本</div><h2>正在读取课程…</h2></div></div>
+<section class="card" id="calibrationPanel" hidden><div class="section-head"><h2>校准当前课包</h2><button type="button" onclick="document.getElementById('calibrationPanel').hidden=true">取消</button></div><p id="calibrationContext" class="help"></p><form id="calibrationForm"><label for="calibrationName">课包名称</label><input id="calibrationName" maxlength="80" required><div class="two-fields"><div><label for="calibrationTotal">购买总节数</label><input id="calibrationTotal" type="number" min="1" max="10000" step="1" required inputmode="numeric"></div><div><label for="calibrationUsed">截至该日，实际已上几节</label><input id="calibrationUsed" type="number" min="0" max="10000" step="1" required inputmode="numeric"></div></div><label for="calibrationDate">校准截至日期（包含当天全部课程）</label><input id="calibrationDate" type="date" required><div class="two-fields"><div><label for="calibrationAmount">本课包实付金额（可不填）</label><input id="calibrationAmount" type="number" min="0" max="100000000" step="0.01" inputmode="decimal" placeholder="未填写"></div><div><label for="calibrationCurrency">币种</label><select id="calibrationCurrency"><option value="CNY">人民币 CNY</option><option value="TWD">新台币 TWD</option><option value="USD">美元 USD</option><option value="EUR">欧元 EUR</option></select></div></div><p class="help">例如：50 节已上 18 节 → 剩余 32 节。请在当天课程全部结束后校准；该日及更早的补记不再重复扣课，次日以后的新课从第 19 节继续。无需填写购买日期。</p><button class="primary wide" data-write>保存校准基准</button></form></section>
 <section class="card prediction" id="predictionCard" hidden><div class="eyebrow">下次训练预测</div><div class="prediction-title" id="predictionTitle"></div><p id="predictionDetail" class="help"></p><p class="subtle-note">按你的历史轮换推测，不代表身体恢复情况或必须训练的安排。</p></section>
 <details class="card" id="trainingEntry" open><summary><span id="trainingSummary">今天练了什么？</span><small id="trainingSummaryHint">点开 / 收起</small></summary><div><div id="categories" class="categories"></div><div class="date-row"><label for="trainingDate">训练日期</label><input type="date" id="trainingDate"></div><label class="check-row"><input id="charge" type="checkbox" checked><span id="chargeLabel">计入当前课包 · 扣 1 次</span></label><button id="submitCheckin" class="primary wide sticky-submit" data-write onclick="checkin()" disabled>完成训练，打个卡 ✓</button><p class="help" style="margin-bottom:0">一次打卡默认扣一次课；纯训练可取消勾选。提交失败不会自动重复扣课。</p></div></details>
 <section class="card"><div class="section-head"><h2>最近训练</h2><span class="badge">只看最近 3 条</span></div><div id="recentActivity"></div></section>
@@ -19,7 +21,7 @@
 </section></div>
 <details class="card" id="history"><summary>历史打卡清单 <small id="allCount">—</small></summary><div class="two-fields"><select id="historyFilter" aria-label="筛选历史记录"><option value="all">全部训练</option><option value="current">当前课包</option><option value="unassigned">未关联课包</option></select><button onclick="exportData()">导出我的记录</button></div><p id="historyCount" class="help"></p><p class="help">旧记录不会自动归入课包。确认一节算一次后，可逐条点“归入本期”；同一天多部位请避免重复扣课。</p><div id="historyList" class="list-scroll"></div><button id="moreRecords" class="wide" onclick="recordLimit+=20;renderHistory()">再显示 20 条</button></details>
 <details class="card" id="management"><summary>课包管理 <small>续费开新期，历史不清零</small></summary><label for="packageSelect">当前使用的课包</label><select id="packageSelect" hidden aria-label="选择课包" style="margin-bottom:12px"></select><div id="packageList"></div><details class="inner-details" id="newPackageForm"><summary>新增一期课包</summary><form id="packageForm"><label for="packageName">名称</label><input id="packageName" maxlength="80" placeholder="例如：2026 年秋季 50 次课" required><div class="two-fields"><div><label for="packageStart">本期开始日期</label><input type="date" id="packageStart" required></div><div><label for="packageTotal">购买次数</label><input type="number" id="packageTotal" value="50" min="1" max="10000" step="1" inputmode="numeric" required></div></div><p class="help">新课包从 0 次开始计数。不会删除、搬移或自动重算旧期记录；历史归属可在清单中核对。</p><button class="primary" data-write>建立新课包</button></form></details></details>
-<footer class="footer">健身打卡 · 课程账本 v2.1<br>免登录便捷模式 · 请勿录入敏感信息</footer>
+<footer class="footer">健身打卡 · 课程账本 v2.2 · 课包校准<br>免登录便捷模式 · 请勿录入敏感信息</footer>
 </main><script>const SB_URL='https://kpxfhrqkkhdetjmyhjqj.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtweGZocnFra2hkZXRqbXloanFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4Mzg0MTMsImV4cCI6MjEwMjQxNDQxM30.w0Rqr7x1SYgzfi0YeJCtaRW_EcigUB0ALEj9N-7p1zU';</script><script>/* Pure accounting rules; no network or storage side effects. */
 (function(root){
@@ -33,26 +35,44 @@ function validatePackage(p){
  return p;
 }
 function ordered(records){return [...records].sort((a,b)=>a.date.localeCompare(b.date)||String(a.created_at||'').localeCompare(String(b.created_at||''))||Number(a.id)-Number(b.id));}
-function ledger(p,records,links=[]){
+function calibration(p,checkpoints=[],asOf='9999-12-31'){
+ const list=checkpoints.filter(c=>c.package_id===p.id&&c.is_calibration&&c.as_of<=asOf);
+ if(p.calibration_date&&p.calibration_date<=asOf)list.push({as_of:p.calibration_date,gym_used:p.calibration_used,total_sessions:p.total_sessions,paid_amount:p.paid_amount,currency:p.currency,created_at:p.created_at,id:''});
+ return list.sort((a,b)=>b.as_of.localeCompare(a.as_of)||String(b.created_at||'').localeCompare(String(a.created_at||''))||String(b.id||'').localeCompare(String(a.id||'')))[0]||null;
+}
+function validateCalibration(c){
+ if(!isoDate(c.as_of))throw Error('请选择有效的校准日期');
+ if(!Number.isInteger(c.gym_used)||c.gym_used<0||c.gym_used>10000)throw Error('已上节数须为 0–10000 的整数');
+ if(!Number.isInteger(c.total_sessions)||c.total_sessions<1||c.total_sessions>10000)throw Error('总课数须为 1–10000 的整数');
+ if(c.paid_amount!==null&&(!Number.isFinite(Number(c.paid_amount))||Number(c.paid_amount)<0||Number(c.paid_amount)>100000000||Math.abs(Number(c.paid_amount)*100-Math.round(Number(c.paid_amount)*100))>0.0001))throw Error('金额须为非负数，最多两位小数');
+ if(!['CNY','TWD','USD','EUR'].includes(c.currency))throw Error('请选择币种');
+ return c;
+}
+function ledger(p,records,links=[],checkpoints=[],asOf='9999-12-31'){
  validatePackage(p);
  const byRecord=new Map(links.map(x=>[String(x.checkin_id),x]));
- let consumed=0;
+ const base=calibration(p,checkpoints,asOf);
+ if(base)validateCalibration(base);
+ let consumed=base?base.gym_used:0;
  const entries=ordered(records).flatMap(r=>{
   const link=byRecord.get(String(r.id));
-  if(!link||link.package_id!==p.id||link.voided)return [];
+  if(!link||link.package_id!==p.id||link.voided||r.date>asOf)return [];
   const units=link.units;
   if(!Number.isInteger(units)||units<0||units>10)throw Error('扣课次数必须为 0–10 的整数');
   if(!isoDate(r.date)||r.date<p.start_date)throw Error('课包内记录早于开始日期，请核对');
+  const includedInBaseline=!!base&&r.date<=base.as_of;
+  if(includedInBaseline)return [{...r,units,ordinal:null,lastOrdinal:null,link_id:link.id,includedInBaseline:true}];
   const first=units?consumed+1:null;
   consumed+=units;
   return [{...r,units,ordinal:first,lastOrdinal:units?consumed:null,link_id:link.id}];
  });
- return {entries,consumed,remaining:Math.max(0,p.total_sessions-consumed),overdrawn:Math.max(0,consumed-p.total_sessions),total:p.total_sessions};
+ const total=base?base.total_sessions:p.total_sessions;
+ return {entries,consumed,remaining:Math.max(0,total-consumed),overdrawn:Math.max(0,consumed-total),total,baseline:base,paid_amount:base?base.paid_amount:p.paid_amount,currency:base?base.currency:(p.currency||'CNY')};
 }
-function reconcile(p,records,links,checkpoint){
+function reconcile(p,records,links,checkpoint,checkpoints=[]){
  if(checkpoint.package_id!==p.id||!isoDate(checkpoint.as_of))throw Error('核对日期或课包不正确');
  if(!Number.isInteger(checkpoint.gym_used)||checkpoint.gym_used<0)throw Error('健身房已用次数须为非负整数');
- const own=ledger(p,records.filter(r=>r.date<=checkpoint.as_of),links).consumed;
+ const own=ledger(p,records.filter(r=>r.date<=checkpoint.as_of),links,checkpoints,checkpoint.as_of).consumed;
  return {own,gym:checkpoint.gym_used,difference:checkpoint.gym_used-own,matched:checkpoint.gym_used===own};
 }
 function suggestLinks(p,records,existingLinks,options){
@@ -98,7 +118,7 @@ function predictNext(records,today){
  }
  return {category,reason,lastCategory:last.category,lastDate:last.date,daysSince:dayNumber(today)-dayNumber(last.date)};
 }
-const api={isoDate,ordered,validatePackage,ledger,reconcile,suggestLinks,insights,predictNext};
+const api={calibration,validateCalibration,isoDate,ordered,validatePackage,ledger,reconcile,suggestLinks,insights,predictNext};
 if(typeof module!=='undefined')module.exports=api;else root.FitnessModel=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>'use strict';
@@ -167,14 +187,14 @@ function render(){
 function renderPackage(){
  const p=current();$('packageSelect').innerHTML=packages.map(x=>`<option value="${esc(x.id)}" ${x.id===activeId?'selected':''}>${esc(x.name)} · ${esc(x.start_date)}</option>`).join('');
  $('packageSelect').hidden=!packages.length;
- if(!p){$('packageHero').innerHTML='<p>尚未设置课包，可正常记录训练。<button class="pill-link" onclick="openPackageForm()">设置课包</button></p>';$('reconcileBox').hidden=true;return}
- const l=M.ledger(p,records,links());
- $('packageHero').innerHTML=`<div class="eyebrow">${esc(p.name)} · ${esc(p.start_date)} 起</div><div class="hero-number"><strong>${l.remaining}</strong><span>次剩余 / 共 ${l.total} 次</span></div><div class="progress"><i style="width:${Math.min(100,l.consumed/l.total*100)}%"></i></div><div class="hero-bottom"><span>已用 <b>${l.consumed}</b> 次</span><span>${l.overdrawn?'已超出 '+l.overdrawn+' 次':'下次扣课：第 '+(l.consumed+1)+' 次'}</span></div>${l.overdrawn?'<p class="warning">课包已用完，请续费或核对扣课记录。</p>':''}`;
+ if(!p){$('packageHero').innerHTML='<div class="eyebrow">当前课包</div><h2>已上 — 节 · 剩余 — 节</h2><p>还没有课包基准，不能从全部训练记录推算。<button class="pill-link" onclick="openCalibration()">校准当前课包</button> <button class="pill-link" onclick="openPackageForm()">设置课包</button></p>';$('reconcileBox').hidden=true;return}
+ const l=M.ledger(p,records,links(),checks);
+ $('packageHero').innerHTML=`<div class="eyebrow">${esc(p.name)} · ${l.baseline?'已校准 · '+esc(l.baseline.as_of):esc(p.start_date)+' 起'}</div><div class="course-metrics"><div><b>${l.consumed}</b><span>已上 / 节</span></div><div><strong>${l.remaining}</strong><span>剩余 / 节</span></div><div><b>${l.total}</b><span>总课数 / 节</span></div></div><div class="progress"><i style="width:${Math.min(100,l.consumed/l.total*100)}%"></i></div><div class="hero-bottom"><span>已上 <b>${l.consumed}</b> 节</span><span>${l.overdrawn?'已超出 '+l.overdrawn+' 次':'下次扣课：第 '+(l.consumed+1)+' 次'}</span></div>${l.overdrawn?'<p class="warning">课包已用完，请续费或核对扣课记录。</p>':''}<p class="help">${l.paid_amount!=null?'实付 '+esc(l.currency)+' '+Number(l.paid_amount).toFixed(2)+' · ':''}${l.baseline?'基准 '+esc(l.baseline.as_of)+'（含当天）已上 '+l.baseline.gym_used+' 节，之后新增 '+(l.consumed-l.baseline.gym_used)+' 节':'按已关联的扣课记录统计'}</p><button class="pill-link" onclick="openCalibration()">校准课包</button>`;
  $('reconcileBox').hidden=false;
- const chk=checks.find(x=>x.package_id===p.id);
- if(chk){const r=M.reconcile(p,records,links(),chk);$('reconcileStatus').textContent=`截至 ${chk.as_of}：本站 ${r.own} 次 / 健身房 ${r.gym} 次。`+(r.matched?'已对上 ✓':r.difference>0?`健身房多记 ${r.difference} 次，请核对明细。`:`本站多记 ${-r.difference} 次，请核对明细。`);const delayed=l.entries.filter(x=>recordTime(x).different).length;if(delayed)$('reconcileStatus').textContent+=` 本期 ${delayed} 条记录的提交日期与训练日期不同，可展开清单核对。`;$('reconcileStatus').className=r.matched?'match':'warning'}else{$('reconcileStatus').textContent='还没有对账记录。输入健身房的已用次数，比较同一天的数据。';$('reconcileStatus').className='muted'}
- $('courseList').innerHTML=l.entries.length?l.entries.slice().reverse().map(r=>`<div class="list-row"><div><b>${r.units?'第 '+r.ordinal+(r.units>1?'–'+r.lastOrdinal:'')+' 次':'不扣课'}</b><small>训练 ${esc(r.date)} · ${esc(r.category||'未标注')}</small><small>记录于 ${esc(recordTime(r).label)}${recordTime(r).different?' · 日期不同':''}</small></div><span>${r.units} 课时</span></div>`).join(''):'<p class="muted">本期尚未扣课。可直接打卡，或在历史清单中逐条归入本期。</p>';
- const history=checks.filter(x=>x.package_id===p.id);$('reconcileHistory').innerHTML=history.map(c=>{const r=M.reconcile(p,records,links(),c);return `<div class="list-row"><div><b>${esc(c.as_of)}</b><small>健身房 ${c.gym_used} / 本站 ${r.own} · ${r.matched?'一致':'差额 '+r.difference}</small></div><span>${esc(c.note||'')}</span></div>`}).join('')||'<p class="muted">暂无核对记录</p>';
+ const chk=checks.find(x=>x.package_id===p.id&&!x.is_calibration);
+ if(chk){const r=M.reconcile(p,records,links(),chk,checks);$('reconcileStatus').textContent=`截至 ${chk.as_of}：本站 ${r.own} 次 / 健身房 ${r.gym} 次。`+(r.matched?'已对上 ✓':r.difference>0?`健身房多记 ${r.difference} 次，请核对明细。`:`本站多记 ${-r.difference} 次，请核对明细。`);const delayed=l.entries.filter(x=>recordTime(x).different).length;if(delayed)$('reconcileStatus').textContent+=` 本期 ${delayed} 条记录的提交日期与训练日期不同，可展开清单核对。`;$('reconcileStatus').className=r.matched?'match':'warning'}else{$('reconcileStatus').textContent='还没有对账记录。输入健身房的已用次数，比较同一天的数据。';$('reconcileStatus').className='muted'}
+ $('courseList').innerHTML=l.entries.length?l.entries.slice().reverse().map(r=>`<div class="list-row"><div><b>${r.includedInBaseline?'已含在校准基准内':r.units?'第 '+r.ordinal+(r.units>1?'–'+r.lastOrdinal:'')+' 次':'不扣课'}</b><small>训练 ${esc(r.date)} · ${esc(r.category||'未标注')}</small><small>记录于 ${esc(recordTime(r).label)}${recordTime(r).different?' · 日期不同':''}</small></div><span>${r.units} 课时</span></div>`).join(''):'<p class="muted">本期尚未扣课。可直接打卡，或在历史清单中逐条归入本期。</p>';
+ const history=checks.filter(x=>x.package_id===p.id&&!x.is_calibration);$('reconcileHistory').innerHTML=history.map(c=>{const r=M.reconcile(p,records,links(),c,checks);return `<div class="list-row"><div><b>${esc(c.as_of)}</b><small>健身房 ${c.gym_used} / 本站 ${r.own} · ${r.matched?'一致':'差额 '+r.difference}</small></div><span>${esc(c.note||'')}</span></div>`}).join('')||'<p class="muted">暂无核对记录</p>';
 }
 let trainingFoldSignature=null;
 function renderTrainingFold(){
@@ -210,7 +230,7 @@ function renderHistory(){
  $('moreRecords').hidden=recordLimit>=rs.length;
 }
 function renderPackageList(){
- $('packageList').innerHTML=packages.map(p=>{const l=M.ledger(p,records,links());return `<button class="package-row ${p.id===activeId?'selected':''}" onclick="selectPackage('${p.id}')"><span><b>${esc(p.name)}</b><small>${esc(p.start_date)} 起 · ${l.total} 次</small></span><strong>已用 ${l.consumed} / 余 ${l.remaining}</strong></button>`}).join('')||'<p class="muted">新建一期课包，旧期记录会一直保留。</p>';
+ $('packageList').innerHTML=packages.map(p=>{const l=M.ledger(p,records,links(),checks);return `<button class="package-row ${p.id===activeId?'selected':''}" onclick="selectPackage('${p.id}')"><span><b>${esc(p.name)}</b><small>${esc(p.start_date)} 起 · ${l.total} 次</small></span><strong>已用 ${l.consumed} / 余 ${l.remaining}</strong></button>`}).join('')||'<p class="muted">新建一期课包，旧期记录会一直保留。</p>';
 }
 function selectPackage(id){$('importPreview').innerHTML='';$('importConfirm').hidden=true;activeId=id;localSet('fitness-active-package',id);$('charge').checked=true;render()}
 function chooseCategory(cat){selectedCat=cat;document.querySelectorAll('[data-category]').forEach(b=>{const on=b.dataset.category===cat;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on))})}
@@ -221,21 +241,41 @@ async function checkin(){
  const p=current(),charge=$('charge').checked&&p;
  if(charge&&date<p.start_date){message('日期早于本期开始时间，请选择对应的历史课包或取消扣课',true);return}
  if(records.some(r=>r.date===date)&&!confirm('这一天已有打卡记录。确认这是另一节训练，不是重复点击？'))return;
- if(charge&&M.ledger(p,records,links()).remaining===0&&!confirm('课包已经用完。仍要继续记为本期扣课吗？'))return;
+ if(charge&&M.ledger(p,records,links(),checks).remaining===0&&!confirm('课包已经用完。仍要继续记为本期扣课吗？'))return;
  await mutate(async()=>{
   const d=new Date(date+'T00:00:00'),latest=M.ordered(records.filter(r=>r.date<=date)).at(-1);
   const row={date,category:selectedCat,year:d.getFullYear(),month:d.getMonth()+1,week:weekNumber(date),prev_category:latest?.category||'',note:'',package_id:charge?p.id:null,course_units:charge?1:0};
   const result=await api('checkins','POST','',row);
   if(!result?.length)throw Error('服务器未返回新记录，请刷新确认后再操作');
   const newRow=result[0];records=[newRow,...records].sort((a,b)=>b.date.localeCompare(a.date)||String(b.created_at||'').localeCompare(String(a.created_at||'')));
-  render();const num=charge?M.ledger(p,records,links()).entries.find(x=>x.id===newRow.id)?.ordinal:null;
-  message(charge?`打卡成功：${p.name} 第 ${num} 次，剩余 ${M.ledger(p,records,links()).remaining} 次。`:'训练已记录，本次不扣课。');$('trainingDate').value=today();
+  render();const num=charge?M.ledger(p,records,links(),checks).entries.find(x=>x.id===newRow.id)?.ordinal:null;
+  message(charge?(num===null?`训练已补记；该日期已含在校准基准内，不重复增加课时。`:`打卡成功：${p.name} 第 ${num} 次，剩余 ${M.ledger(p,records,links(),checks).remaining} 次。`):'训练已记录，本次不扣课。');$('trainingDate').value=today();
  });
 }
 function weekNumber(date){const d=new Date(date+'T12:00:00');d.setHours(0,0,0,0);d.setDate(d.getDate()+3-(d.getDay()+6)%7);const w=new Date(d.getFullYear(),0,4);return 1+Math.round(((d-w)/86400000-3+(w.getDay()+6)%7)/7)}
 function openPackageForm(){$('management').open=true;$('newPackageForm').open=true;$('packageName').focus();$('management').scrollIntoView({behavior:'smooth',block:'start'})}
+function openCalibration(){
+ const p=current(),l=p?M.ledger(p,records,links(),checks):null;
+ $('calibrationPanel').hidden=false;$('calibrationName').value=p?p.name:'当前课包';
+ $('calibrationName').disabled=!!p;$('calibrationDate').value=today();$('calibrationDate').max=today();
+ $('calibrationTotal').value=l?l.total:50;$('calibrationUsed').value=l?l.consumed:'';
+ $('calibrationAmount').value=l?.paid_amount??'';$('calibrationCurrency').value=l?.currency||'CNY';
+ $('calibrationContext').textContent=p?'校准「'+p.name+'」：保存后使用新的累计基准，旧训练和核对记录保留。':'不知道购买日期也可以：用健身房确认的累计节数建立当前课包。';
+ $('calibrationPanel').scrollIntoView({behavior:'smooth',block:'start'});$('calibrationUsed').focus();
+}
+async function calibrationSave(e){
+ e.preventDefault();if(!loaded)return;
+ const p=current(),body={id:crypto.randomUUID(),package_id:p?.id,as_of:$('calibrationDate').value,gym_used:Number($('calibrationUsed').value),total_sessions:Number($('calibrationTotal').value),paid_amount:$('calibrationAmount').value.trim()===''?null:Number($('calibrationAmount').value),currency:$('calibrationCurrency').value,is_calibration:true,note:'用户确认课包基准'};
+ try{M.validateCalibration(body);if($('calibrationUsed').value.trim()==='')throw Error('请填写健身房确认的已上节数');if(body.as_of>today())throw Error('校准日期不能晚于今天');if(p&&body.as_of<p.start_date)throw Error('校准日期不能早于本期开始日');const old=p?M.calibration(p,checks):null;if(old&&body.as_of<old.as_of)throw Error('新的校准日期不能早于上次校准');if(!p&&!$('calibrationName').value.trim())throw Error('请填写课包名称')}catch(e){message(e.message,true);return}
+ if(!confirm(`以 ${body.as_of}（含当天）为准：总 ${body.total_sessions} 节，已上 ${body.gym_used} 节，剩余 ${Math.max(0,body.total_sessions-body.gym_used)} 节。当天及更早的训练已含在基准内，不会再加算。确认保存？`))return;
+ await mutate(async()=>{
+  if(p){const result=await api('fitness_reconciliations','POST','',body);if(!result?.length)throw Error('校准结果未确认，请刷新核实，勿重复保存');checks.unshift(result[0]);}
+  else{const row={id:body.id,name:$('calibrationName').value.trim(),start_date:body.as_of,total_sessions:body.total_sessions,calibration_date:body.as_of,calibration_used:body.gym_used,paid_amount:body.paid_amount,currency:body.currency};const result=await api('fitness_packages','POST','',row);if(!result?.length)throw Error('课包结果未确认，请刷新核实，勿重复保存');packages.unshift(result[0]);activeId=row.id;localSet('fitness-active-package',activeId);}
+  $('charge').checked=true;render();$('calibrationPanel').hidden=true;message('课包已校准。基准日之后的打卡继续累加，历史训练未改动。');$('packageTop').scrollIntoView({behavior:'smooth'});
+ });
+}
 async function createPackage(e){e.preventDefault();const body={id:crypto.randomUUID(),name:$('packageName').value.trim(),start_date:$('packageStart').value,total_sessions:Number($('packageTotal').value)};try{M.validatePackage(body)}catch(e){message(e.message,true);return}await mutate(async()=>{const result=await api('fitness_packages','POST','',body);if(!result?.length)throw Error('未确认保存，请刷新核实');packages.unshift(result[0]);selectPackage(body.id);$('newPackageForm').open=false;message('新一期课包已创建，从 0 次开始。旧记录未改变。');$('packageTop').scrollIntoView({behavior:'smooth'})})}
-async function reconcileSave(e){e.preventDefault();const p=current();if(!p)return;const body={id:crypto.randomUUID(),package_id:p.id,as_of:$('reconcileDate').value,gym_used:Number($('gymUsed').value),note:$('reconcileNote').value.trim()};try{M.reconcile(p,records,links(),body);if(body.as_of>today()||body.as_of<p.start_date)throw Error('核对日期须在课包开始日至今天之间')}catch(e){message(e.message,true);return}await mutate(async()=>{const result=await api('fitness_reconciliations','POST','',body);if(!result?.length)throw Error('未确认保存，请刷新核实');checks.unshift(result[0]);checks.sort((a,b)=>b.as_of.localeCompare(a.as_of)||String(b.created_at).localeCompare(String(a.created_at)));renderPackage();message('核对已保存，不会擅自改动你的打卡次数。')})}
+async function reconcileSave(e){e.preventDefault();const p=current();if(!p)return;const body={id:crypto.randomUUID(),package_id:p.id,as_of:$('reconcileDate').value,gym_used:Number($('gymUsed').value),note:$('reconcileNote').value.trim()};try{M.reconcile(p,records,links(),body,checks);if(body.as_of>today()||body.as_of<p.start_date)throw Error('核对日期须在课包开始日至今天之间')}catch(e){message(e.message,true);return}await mutate(async()=>{const result=await api('fitness_reconciliations','POST','',body);if(!result?.length)throw Error('未确认保存，请刷新核实');checks.unshift(result[0]);checks.sort((a,b)=>b.as_of.localeCompare(a.as_of)||String(b.created_at).localeCompare(String(a.created_at)));renderPackage();message('核对已保存，不会擅自改动你的打卡次数。')})}
 async function linkRecord(id){const p=current(),r=records.find(x=>x.id===id);if(!p||!r)return;if(r.date<p.start_date){message('这条记录早于本期开始日期，不能归入本期',true);return}if(!confirm(`将 ${r.date} 的「${r.category||'未标注'}」计入 ${p.name}，扣 1 次课？`))return;await mutate(async()=>{const response=await api('checkins','PATCH','?id=eq.'+id+'&package_id=is.null',{package_id:p.id,course_units:1});if(response?.length!==1)throw Error('记录已变化，请刷新后再核对');records=records.map(x=>x.id===id?response[0]:x);render();message('已归入本期并扣 1 次课。')})}
 async function unlinkRecord(id){if(!confirm('仅取消这条记录的课包扣课，训练记录仍保留，确认？'))return;await mutate(async()=>{const response=await api('checkins','PATCH','?id=eq.'+id,{package_id:null,course_units:0});if(response?.length!==1)throw Error('记录已变化，请刷新核实');records=records.map(x=>x.id===id?response[0]:x);render();message('已取消课包关联，训练记录保留。')})}
 async function deleteRecord(id){if(!confirm('删除这条打卡会同时影响训练统计和课包已用次数。确认删除？'))return;await mutate(async()=>{const response=await api('checkins','DELETE','?id=eq.'+id);if(response?.length!==1)throw Error('未确认删除结果，请刷新核实');records=records.filter(r=>r.id!==id);render();message('记录已删除，计数已重新计算。')})}
@@ -264,6 +304,6 @@ async function commitImport(){
 }
 function exportData(){const blob=new Blob([JSON.stringify({exported_at:new Date().toISOString(),records,packages,reconciliations:checks},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='健身记录-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function toggleTheme(){const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localSet('theme',next)}
-function init(){document.documentElement.dataset.theme=localGet('theme')||'light';$('todayLabel').textContent=today();$('trainingDate').value=today();$('trainingDate').max=today();$('packageStart').value=today();$('reconcileDate').value=today();$('reconcileDate').max=today();$('importEnd').value=today();$('importEnd').max=today();$('categories').innerHTML=CATS.map(c=>`<button type="button" data-category="${esc(c)}" aria-pressed="false" onclick="chooseCategory(this.dataset.category)">${esc(c)}</button>`).join('');$('packageSelect').addEventListener('change',e=>selectPackage(e.target.value));$('historyFilter').addEventListener('change',()=>{recordLimit=20;renderHistory()});$('packageForm').addEventListener('submit',createPackage);$('reconcileForm').addEventListener('submit',reconcileSave);loadAll()}
+function init(){document.documentElement.dataset.theme=localGet('theme')||'light';$('todayLabel').textContent=today();$('trainingDate').value=today();$('trainingDate').max=today();$('packageStart').value=today();$('reconcileDate').value=today();$('reconcileDate').max=today();$('importEnd').value=today();$('importEnd').max=today();$('categories').innerHTML=CATS.map(c=>`<button type="button" data-category="${esc(c)}" aria-pressed="false" onclick="chooseCategory(this.dataset.category)">${esc(c)}</button>`).join('');$('packageSelect').addEventListener('change',e=>selectPackage(e.target.value));$('historyFilter').addEventListener('change',()=>{recordLimit=20;renderHistory()});$('calibrationForm').addEventListener('submit',calibrationSave);$('packageForm').addEventListener('submit',createPackage);$('reconcileForm').addEventListener('submit',reconcileSave);loadAll()}
 init();
 </script></body></html>
